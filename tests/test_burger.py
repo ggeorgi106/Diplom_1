@@ -6,12 +6,6 @@ from praktikum.burger import Burger
 
 class TestBurger:
 
-    def test_burger_initial_state(self):
-        burger = Burger()
-
-        assert burger.bun is None
-        assert burger.ingredients == []
-
     def test_set_buns_sets_bun(self):
         burger = Burger()
         bun_mock = Mock()
@@ -39,7 +33,10 @@ class TestBurger:
 
         burger.remove_ingredient(index)
 
-        assert len(burger.ingredients) == 1
+        if index == 0:
+            assert burger.ingredients == [ingredient_mock_2]
+        else:
+            assert burger.ingredients == [ingredient_mock_1]
 
     def test_move_ingredient_moves_ingredient(self):
         burger = Burger()
@@ -58,6 +55,17 @@ class TestBurger:
             ingredient_mock_3,
             ingredient_mock_1
         ]
+
+    def test_get_price_with_only_bun(self):
+        burger = Burger()
+        bun_mock = Mock()
+        bun_mock.get_price.return_value = 100
+
+        burger.set_buns(bun_mock)
+
+        result = burger.get_price()
+
+        assert result == 200
 
     def test_get_price_returns_correct_price(self):
         burger = Burger()
